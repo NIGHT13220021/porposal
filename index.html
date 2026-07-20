@@ -312,7 +312,7 @@
         <video autoplay loop muted playsinline><source src="media/cool-cat.mp4" type="video/mp4"></video>
       </div>
       <h1 class="step-text">so, quick question first —</h1>
-      <p class="subtext">do you know you've been the best part of my days lately? Just checking we're on the same page.</p>
+      <p class="subtext">are you free sometime soon? Just checking before I get ahead of myself.</p>
       <div class="button-row"><button class="btn btn-next next-btn">go on</button></div>
     </div>
 
@@ -320,8 +320,8 @@
       <div class="hero-frame">
         <video autoplay loop muted playsinline><source src="media/ami-fat-cat-awww.mp4" type="video/mp4"></video>
       </div>
-      <h1 class="step-text">good. because I mean it.</h1>
-      <p class="subtext">Every ridiculous cat video I sent you this month was basically a warm-up for this.</p>
+      <h1 class="step-text">good. because I've been thinking about this.</h1>
+      <p class="subtext">Not just texting back and forth — an actual, real, get-out-of-the-house date.</p>
       <div class="button-row"><button class="btn btn-next next-btn">get to the point</button></div>
     </div>
 
@@ -339,11 +339,11 @@
   <section class="scene" id="ask-scene" style="display:none;">
     <div class="hero-frame">
       <video autoplay loop muted playsinline>
-        <source src="media/will-you-be-mine-will-you-be-my-girlfriend.mp4" type="video/mp4">
+        <source src="media/cool-cat.mp4" type="video/mp4">
       </video>
     </div>
 
-    <h1 class="question">Will you be my <span class="accent">girlfriend</span>?</h1>
+    <h1 class="question">Wanna go on a <span class="accent">date</span>?</h1>
     <p class="subtext">I've been meaning to ask this properly. So here it is — with all the cats I could find, because they say it better than I can.</p>
 
     <div class="button-row">
@@ -357,7 +357,7 @@
   <section class="scene" id="yes-scene">
     <div>
       <h1>she said yes 🎉</h1>
-      <p class="subtext">Every single cat in my camera roll is celebrating with us right now.</p>
+      <p class="subtext">Every single cat in my camera roll is celebrating with us right now. I'll text you the details.</p>
 
       <div class="gallery">
         <div class="tile"><video autoplay loop muted playsinline><source src="media/cat-kiss-camera-cute-cat.mp4"></video></div>
@@ -374,7 +374,7 @@
         <div class="tile"><video autoplay loop muted playsinline><source src="media/killer.mp4"></video></div>
       </div>
 
-      <div class="signoff">now come here, i owe you a real hug 🤍</div>
+      <div class="signoff">pick you up soon 🤍</div>
     </div>
   </section>
 
@@ -430,8 +430,8 @@
   function notifyAnswer(answer){
     fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
       method: 'POST',
-      body: answer === 'yes' ? 'She said YES 🥹💗' : `She clicked No (attempt #${dodges + 1}) 🙈`,
-      headers: { 'Title': 'Proposal page update', 'Priority': answer === 'yes' ? 'urgent' : 'default', 'Tags': answer === 'yes' ? 'heart' : 'cat' }
+      body: answer === 'yes' ? 'She said YES to the date 🥹💗' : `She clicked No (attempt #${dodges + 1}) 🙈`,
+      headers: { 'Title': 'Date invite page update', 'Priority': answer === 'yes' ? 'urgent' : 'default', 'Tags': answer === 'yes' ? 'heart' : 'cat' }
     }).catch(()=>{ /* fails silently if offline - doesn't block the page */ });
   }
 
