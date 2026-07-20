@@ -425,7 +425,7 @@
   const hint = document.getElementById('hint');
 
   /* ---- notify you remotely when she answers (via ntfy.sh, no backend needed) ---- */
-  const NTFY_TOPIC = 'porposal1322'; // <-- change this to something unique only you know
+  const NTFY_TOPIC = 'PUT-YOUR-UNIQUE-TOPIC-NAME-HERE'; // <-- change this to something unique only you know
 
   function notifyAnswer(answer){
     fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
@@ -447,6 +447,7 @@
   ];
   let teaseIndex = 0;
   let dodges = 0;
+  let noNotified = false;
 
   function moveNoButton(){
     askScene.classList.add('locked');
@@ -469,8 +470,16 @@
   }
 
   noBtn.addEventListener('mouseenter', moveNoButton);
-  noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNoButton(); if(dodges === 0) notifyAnswer('no'); });
-  noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNoButton(); if(dodges === 0) notifyAnswer('no'); }, {passive:false});
+  noBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    moveNoButton();
+    if(!noNotified){ noNotified = true; notifyAnswer('no'); }
+  });
+  noBtn.addEventListener('touchstart', (e)=>{
+    e.preventDefault();
+    moveNoButton();
+    if(!noNotified){ noNotified = true; notifyAnswer('no'); }
+  }, {passive:false});
 
   function launchConfetti(){
     const colors = ['#E85D8A','#E8B84B','#FFD9E4','#C43B67','#FFFFFF'];
