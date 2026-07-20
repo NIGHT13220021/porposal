@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>a question, for you 🐾</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,9 +16,10 @@
     --gold:#E8B84B;
     --white:#FFFFFF;
     --shadow: 0 20px 50px rgba(196,59,103,0.18);
+    --vh: 1vh;
   }
 
-  *{ box-sizing:border-box; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
   html,body{
     margin:0; padding:0;
@@ -27,9 +28,9 @@
     font-family:'Quicksand', sans-serif;
     color:var(--plum);
     overflow-x:hidden;
+    width:100%;
   }
 
-  /* ---------- floating decoration ---------- */
   .float-deco{
     position:fixed;
     z-index:0;
@@ -37,26 +38,29 @@
     opacity:0.85;
     filter: drop-shadow(0 10px 20px rgba(196,59,103,0.15));
     animation: bob 6s ease-in-out infinite;
+    width: clamp(56px, 9vw, 110px);
   }
-  .float-deco img{ width:100%; display:block; border-radius:18px; }
-  .deco1{ top:6%; left:4%; width:100px; animation-delay:0s; transform:rotate(-8deg); }
-  .deco2{ bottom:8%; left:7%; width:90px; animation-delay:1.2s; transform:rotate(6deg); }
-  .deco3{ top:12%; right:5%; width:110px; animation-delay:0.6s; transform:rotate(7deg); }
-  .deco4{ bottom:10%; right:6%; width:95px; animation-delay:1.8s; transform:rotate(-6deg); }
+  .float-deco img, .float-deco video{ width:100%; display:block; border-radius:18px; }
+  .deco1{ top:5%; left:3%; transform:rotate(-8deg); animation-delay:0s; }
+  .deco2{ bottom:6%; left:3%; transform:rotate(6deg); animation-delay:1.2s; }
+  .deco3{ top:9%; right:3%; transform:rotate(7deg); animation-delay:0.6s; }
+  .deco4{ bottom:7%; right:3%; transform:rotate(-6deg); animation-delay:1.8s; }
 
   @keyframes bob{
     0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); }
-    50%{ transform:translateY(-16px) rotate(var(--r,0deg)); }
+    50%{ transform:translateY(-14px) rotate(var(--r,0deg)); }
   }
 
-  @media (max-width: 720px){
-    .float-deco{ width:60px !important; opacity:0.6; }
+  @media (max-width: 480px){
+    .float-deco{ opacity:0.35; width:56px; }
+  }
+  @media (max-height: 700px) and (max-width: 480px){
+    .float-deco{ display:none; }
   }
 
-  /* ---------- paw trail ---------- */
   .paw{
     position:fixed;
-    font-size:22px;
+    font-size:20px;
     pointer-events:none;
     opacity:0.55;
     z-index:1;
@@ -66,51 +70,66 @@
     to{ opacity:0; transform:translateY(10px) scale(0.6); }
   }
 
-  /* ---------- scenes ---------- */
   .scene{
     position:relative;
-    min-height:100vh;
+    min-height: 100svh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    width:100%;
     display:flex;
     align-items:center;
     justify-content:center;
     z-index:2;
-    padding: 48px 20px;
+    padding: clamp(24px, 6vw, 48px) clamp(16px, 5vw, 20px);
   }
 
-  #ask-scene{ flex-direction:column; text-align:center; }
+  #step-scene, #ask-scene{ flex-direction:column; text-align:center; }
 
   .eyebrow{
     font-family:'Caveat', cursive;
-    font-size:1.6rem;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
     color:var(--deep-rose);
     letter-spacing:0.5px;
     margin-bottom:6px;
   }
 
+  .dots{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-bottom: clamp(16px, 4vw, 24px);
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--blush);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .dot.active{ background:var(--deep-rose); transform:scale(1.3); }
+
   .hero-frame{
     position:relative;
-    width:210px;
-    height:210px;
+    width: clamp(150px, 42vw, 210px);
+    height: clamp(150px, 42vw, 210px);
     border-radius:50%;
     overflow:hidden;
-    border:6px solid var(--white);
+    border: clamp(4px, 1.2vw, 6px) solid var(--white);
     box-shadow: var(--shadow);
-    margin:0 auto 28px auto;
+    margin:0 auto clamp(18px, 4vw, 28px) auto;
     background:var(--blush);
   }
-  .hero-frame video{
+  .hero-frame video, .hero-frame img{
     width:100%; height:100%; object-fit:cover;
   }
 
-  h1.question{
+  h1.question, h1.step-text{
     font-family:'Playfair Display', serif;
     font-weight:700;
     font-style:italic;
-    font-size:clamp(2.1rem, 5vw, 3.4rem);
-    line-height:1.15;
+    font-size: clamp(1.7rem, 6vw, 3.4rem);
+    line-height:1.2;
     margin: 0 0 10px 0;
     color:var(--plum);
     max-width:720px;
+    padding: 0 4px;
   }
 
   h1.question .accent{
@@ -119,39 +138,45 @@
   }
 
   .subtext{
-    font-size:1.08rem;
+    font-size: clamp(0.95rem, 3.2vw, 1.08rem);
     color:#7a4a63;
     max-width:480px;
-    margin: 0 auto 38px auto;
+    margin: 0 auto clamp(24px, 5vw, 38px) auto;
     line-height:1.6;
+    padding: 0 8px;
   }
 
   .button-row{
     display:flex;
-    gap:22px;
+    gap: clamp(12px, 3vw, 22px);
     justify-content:center;
     align-items:center;
     position:relative;
     min-height:80px;
+    flex-wrap: wrap;
+    width:100%;
   }
 
   .btn{
     font-family:'Quicksand', sans-serif;
     font-weight:700;
-    font-size:1.05rem;
-    padding:16px 34px;
+    font-size: clamp(0.95rem, 3.2vw, 1.05rem);
+    padding: clamp(13px, 3.5vw, 16px) clamp(24px, 6vw, 34px);
     border-radius:999px;
     border:none;
     cursor:pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    min-height:48px;
+    touch-action: manipulation;
   }
 
-  .btn-yes{
+  .btn-yes, .btn-next{
     background: linear-gradient(135deg, var(--rose), var(--deep-rose));
     color:var(--white);
     box-shadow: 0 12px 26px rgba(196,59,103,0.35);
   }
-  .btn-yes:hover{ transform:translateY(-3px) scale(1.04); box-shadow: 0 16px 32px rgba(196,59,103,0.45); }
+  .btn-yes:hover, .btn-next:hover{ transform:translateY(-3px) scale(1.04); box-shadow: 0 16px 32px rgba(196,59,103,0.45); }
+  .btn-yes:active, .btn-next:active{ transform:scale(0.97); }
 
   .btn-no{
     background: var(--white);
@@ -168,12 +193,20 @@
   .hint{
     margin-top:26px;
     font-family:'Caveat', cursive;
-    font-size:1.3rem;
+    font-size: clamp(1.1rem, 3.5vw, 1.3rem);
     color:#a15c78;
     min-height:1.6em;
+    padding: 0 12px;
   }
 
-  /* ---------- yes scene ---------- */
+  #step-scene{ display:flex; }
+  .step-panel{ display:none; width:100%; max-width:600px; }
+  .step-panel.active{ display:block; animation: stepIn 0.45s ease; }
+  @keyframes stepIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
   #yes-scene{
     display:none;
     flex-direction:column;
@@ -184,27 +217,32 @@
     font-family:'Playfair Display', serif;
     font-style:italic;
     font-weight:700;
-    font-size:clamp(2.2rem, 5.5vw, 3.6rem);
+    font-size: clamp(1.9rem, 6.5vw, 3.6rem);
     color:var(--deep-rose);
     margin-bottom:8px;
   }
 
-  #yes-scene .subtext{ margin-bottom:36px; }
+  #yes-scene .subtext{ margin-bottom: clamp(24px, 5vw, 36px); }
 
   .gallery{
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap:18px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: clamp(10px, 2.5vw, 18px);
     max-width:960px;
+    width:100%;
     margin: 0 auto;
-    padding: 0 8px;
+    padding: 0 4px;
+  }
+
+  @media (max-width: 380px){
+    .gallery{ grid-template-columns: repeat(2, 1fr); }
   }
 
   .tile{
-    border-radius:20px;
+    border-radius:16px;
     overflow:hidden;
-    box-shadow: 0 12px 28px rgba(196,59,103,0.2);
-    border: 4px solid var(--white);
+    box-shadow: 0 10px 22px rgba(196,59,103,0.2);
+    border: 3px solid var(--white);
     background:var(--blush);
     aspect-ratio: 1 / 1;
     transform: rotate(var(--tilt));
@@ -219,13 +257,13 @@
   .tile:nth-child(even){ --tilt: 3deg; }
 
   .signoff{
-    margin-top:40px;
+    margin-top:clamp(28px, 5vw, 40px);
     font-family:'Caveat', cursive;
-    font-size:1.8rem;
+    font-size: clamp(1.4rem, 4.5vw, 1.8rem);
     color:var(--deep-rose);
+    padding: 0 12px;
   }
 
-  /* confetti */
   .confetti{
     position:fixed;
     top:-10px;
@@ -240,30 +278,65 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .float-deco, .confetti{ animation:none !important; }
+    .float-deco, .confetti, .step-panel.active{ animation:none !important; }
   }
 </style>
 </head>
 <body>
 
-  <!-- floating decorative cats -->
   <div class="float-deco deco1"><img src="media/aindagato.gif" alt=""></div>
   <div class="float-deco deco2"><img src="media/200w.webp" alt=""></div>
-  <div class="float-deco deco3" style="border-radius:18px; overflow:hidden;">
-    <video autoplay loop muted playsinline style="width:100%; border-radius:18px;">
-      <source src="media/uni-tail-wag-unicat.mp4" type="video/mp4">
-    </video>
+  <div class="float-deco deco3">
+    <video autoplay loop muted playsinline><source src="media/uni-tail-wag-unicat.mp4" type="video/mp4"></video>
   </div>
-  <div class="float-deco deco4" style="border-radius:18px; overflow:hidden;">
-    <video autoplay loop muted playsinline style="width:100%; border-radius:18px;">
-      <source src="media/peach-goma.mp4" type="video/mp4">
-    </video>
+  <div class="float-deco deco4">
+    <video autoplay loop muted playsinline><source src="media/peach-goma.mp4" type="video/mp4"></video>
   </div>
 
-  <!-- ASK SCENE -->
-  <section class="scene" id="ask-scene">
-    <div class="eyebrow">psst... come here for a sec</div>
+  <section class="scene" id="step-scene">
 
+    <div class="dots" id="dots"></div>
+
+    <div class="step-panel active" data-step="0">
+      <div class="eyebrow">psst... come here for a sec</div>
+      <div class="hero-frame">
+        <video autoplay loop muted playsinline><source src="media/cat-salut.mp4" type="video/mp4"></video>
+      </div>
+      <h1 class="step-text">hi.</h1>
+      <p class="subtext">I have something to ask you. It'll take like four clicks. The cats insisted on helping.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">okay...</button></div>
+    </div>
+
+    <div class="step-panel" data-step="1">
+      <div class="hero-frame">
+        <video autoplay loop muted playsinline><source src="media/cool-cat.mp4" type="video/mp4"></video>
+      </div>
+      <h1 class="step-text">so, quick question first —</h1>
+      <p class="subtext">do you know you've been the best part of my days lately? Just checking we're on the same page.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">go on</button></div>
+    </div>
+
+    <div class="step-panel" data-step="2">
+      <div class="hero-frame">
+        <video autoplay loop muted playsinline><source src="media/ami-fat-cat-awww.mp4" type="video/mp4"></video>
+      </div>
+      <h1 class="step-text">good. because I mean it.</h1>
+      <p class="subtext">Every ridiculous cat video I sent you this month was basically a warm-up for this.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">get to the point</button></div>
+    </div>
+
+    <div class="step-panel" data-step="3">
+      <div class="hero-frame">
+        <video autoplay loop muted playsinline><source src="media/puss-in-boots-eyes.mp4" type="video/mp4"></video>
+      </div>
+      <h1 class="step-text">okay. here it comes.</h1>
+      <p class="subtext">Deep breath. Last click, I promise.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">ready</button></div>
+    </div>
+
+  </section>
+
+  <section class="scene" id="ask-scene" style="display:none;">
     <div class="hero-frame">
       <video autoplay loop muted playsinline>
         <source src="media/will-you-be-mine-will-you-be-my-girlfriend.mp4" type="video/mp4">
@@ -281,7 +354,6 @@
     <div class="hint" id="hint"></div>
   </section>
 
-  <!-- YES SCENE -->
   <section class="scene" id="yes-scene">
     <div>
       <h1>she said yes 🎉</h1>
@@ -307,9 +379,48 @@
   </section>
 
 <script>
+  function setVH(){
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setVH();
+  window.addEventListener('resize', setVH);
+  window.addEventListener('orientationchange', setVH);
+
+  const panels = Array.from(document.querySelectorAll('.step-panel'));
+  const dotsWrap = document.getElementById('dots');
+  const stepScene = document.getElementById('step-scene');
+  const askScene = document.getElementById('ask-scene');
+  let current = 0;
+
+  panels.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    dotsWrap.appendChild(d);
+  });
+  const dotEls = Array.from(dotsWrap.children);
+
+  function goToStep(i){
+    panels[current].classList.remove('active');
+    dotEls[current].classList.remove('active');
+    current = i;
+    panels[current].classList.add('active');
+    dotEls[current].classList.add('active');
+  }
+
+  document.querySelectorAll('.next-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (current < panels.length - 1){
+        goToStep(current + 1);
+      } else {
+        stepScene.style.display = 'none';
+        askScene.style.display = 'flex';
+        window.scrollTo({top:0, behavior:'smooth'});
+      }
+    });
+  });
+
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
-  const askScene = document.getElementById('ask-scene');
   const yesScene = document.getElementById('yes-scene');
   const hint = document.getElementById('hint');
 
@@ -329,9 +440,11 @@
   function moveNoButton(){
     askScene.classList.add('locked');
     const btnRect = noBtn.getBoundingClientRect();
-    const margin = 24;
-    const maxX = window.innerWidth - btnRect.width - margin;
-    const maxY = window.innerHeight - btnRect.height - margin;
+    const margin = 16;
+    const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const maxX = vw - btnRect.width - margin;
+    const maxY = vh - btnRect.height - margin;
     const x = Math.max(margin, Math.random() * maxX);
     const y = Math.max(margin, Math.random() * maxY);
     noBtn.style.left = x + 'px';
@@ -370,18 +483,19 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
-  // subtle paw print trail on the ask scene
-  document.addEventListener('mousemove', (e)=>{
-    if(Math.random() > 0.92){
-      const p = document.createElement('div');
-      p.className='paw';
-      p.textContent='🐾';
-      p.style.left = e.clientX + 'px';
-      p.style.top = e.clientY + 'px';
-      document.body.appendChild(p);
-      setTimeout(()=>p.remove(), 1000);
-    }
-  });
+  if (!('ontouchstart' in window)) {
+    document.addEventListener('mousemove', (e)=>{
+      if(Math.random() > 0.92){
+        const p = document.createElement('div');
+        p.className='paw';
+        p.textContent='🐾';
+        p.style.left = e.clientX + 'px';
+        p.style.top = e.clientY + 'px';
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(), 1000);
+      }
+    });
+  }
 </script>
 
 </body>
