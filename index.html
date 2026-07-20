@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>a question, for you 🐾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6F0;
+    --blush:#FFD9E4;
+    --rose:#E85D8A;
+    --deep-rose:#C43B67;
+    --plum:#4A2140;
+    --gold:#E8B84B;
+    --white:#FFFFFF;
+    --shadow: 0 20px 50px rgba(196,59,103,0.18);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0; padding:0;
+    min-height:100%;
+    background: radial-gradient(circle at 20% 10%, var(--blush), var(--cream) 55%);
+    font-family:'Quicksand', sans-serif;
+    color:var(--plum);
+    overflow-x:hidden;
+  }
+
+  /* ---------- floating decoration ---------- */
+  .float-deco{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.85;
+    filter: drop-shadow(0 10px 20px rgba(196,59,103,0.15));
+    animation: bob 6s ease-in-out infinite;
+  }
+  .float-deco img{ width:100%; display:block; border-radius:18px; }
+  .deco1{ top:6%; left:4%; width:100px; animation-delay:0s; transform:rotate(-8deg); }
+  .deco2{ bottom:8%; left:7%; width:90px; animation-delay:1.2s; transform:rotate(6deg); }
+  .deco3{ top:12%; right:5%; width:110px; animation-delay:0.6s; transform:rotate(7deg); }
+  .deco4{ bottom:10%; right:6%; width:95px; animation-delay:1.8s; transform:rotate(-6deg); }
+
+  @keyframes bob{
+    0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); }
+    50%{ transform:translateY(-16px) rotate(var(--r,0deg)); }
+  }
+
+  @media (max-width: 720px){
+    .float-deco{ width:60px !important; opacity:0.6; }
+  }
+
+  /* ---------- paw trail ---------- */
+  .paw{
+    position:fixed;
+    font-size:22px;
+    pointer-events:none;
+    opacity:0.55;
+    z-index:1;
+    animation: fadeOut 1s forwards;
+  }
+  @keyframes fadeOut{
+    to{ opacity:0; transform:translateY(10px) scale(0.6); }
+  }
+
+  /* ---------- scenes ---------- */
+  .scene{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+    padding: 48px 20px;
+  }
+
+  #ask-scene{ flex-direction:column; text-align:center; }
+
+  .eyebrow{
+    font-family:'Caveat', cursive;
+    font-size:1.6rem;
+    color:var(--deep-rose);
+    letter-spacing:0.5px;
+    margin-bottom:6px;
+  }
+
+  .hero-frame{
+    position:relative;
+    width:210px;
+    height:210px;
+    border-radius:50%;
+    overflow:hidden;
+    border:6px solid var(--white);
+    box-shadow: var(--shadow);
+    margin:0 auto 28px auto;
+    background:var(--blush);
+  }
+  .hero-frame video{
+    width:100%; height:100%; object-fit:cover;
+  }
+
+  h1.question{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:clamp(2.1rem, 5vw, 3.4rem);
+    line-height:1.15;
+    margin: 0 0 10px 0;
+    color:var(--plum);
+    max-width:720px;
+  }
+
+  h1.question .accent{
+    color:var(--deep-rose);
+    font-style:normal;
+  }
+
+  .subtext{
+    font-size:1.08rem;
+    color:#7a4a63;
+    max-width:480px;
+    margin: 0 auto 38px auto;
+    line-height:1.6;
+  }
+
+  .button-row{
+    display:flex;
+    gap:22px;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    min-height:80px;
+  }
+
+  .btn{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:16px 34px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .btn-yes{
+    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    color:var(--white);
+    box-shadow: 0 12px 26px rgba(196,59,103,0.35);
+  }
+  .btn-yes:hover{ transform:translateY(-3px) scale(1.04); box-shadow: 0 16px 32px rgba(196,59,103,0.45); }
+
+  .btn-no{
+    background: var(--white);
+    color:var(--deep-rose);
+    border:2px solid var(--blush);
+    position:relative;
+    transition: transform 0.18s ease, left 0.18s ease, top 0.18s ease;
+  }
+
+  #ask-scene.locked .btn-no{
+    position:fixed;
+  }
+
+  .hint{
+    margin-top:26px;
+    font-family:'Caveat', cursive;
+    font-size:1.3rem;
+    color:#a15c78;
+    min-height:1.6em;
+  }
+
+  /* ---------- yes scene ---------- */
+  #yes-scene{
+    display:none;
+    flex-direction:column;
+    text-align:center;
+  }
+
+  #yes-scene h1{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:700;
+    font-size:clamp(2.2rem, 5.5vw, 3.6rem);
+    color:var(--deep-rose);
+    margin-bottom:8px;
+  }
+
+  #yes-scene .subtext{ margin-bottom:36px; }
+
+  .gallery{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap:18px;
+    max-width:960px;
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+
+  .tile{
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow: 0 12px 28px rgba(196,59,103,0.2);
+    border: 4px solid var(--white);
+    background:var(--blush);
+    aspect-ratio: 1 / 1;
+    transform: rotate(var(--tilt));
+    transition: transform 0.3s ease;
+  }
+  .tile:hover{ transform: rotate(0deg) scale(1.05); }
+  .tile video, .tile img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+
+  .tile:nth-child(odd){ --tilt: -3deg; }
+  .tile:nth-child(even){ --tilt: 3deg; }
+
+  .signoff{
+    margin-top:40px;
+    font-family:'Caveat', cursive;
+    font-size:1.8rem;
+    color:var(--deep-rose);
+  }
+
+  /* confetti */
+  .confetti{
+    position:fixed;
+    top:-10px;
+    width:10px; height:14px;
+    border-radius:3px;
+    z-index:5;
+    pointer-events:none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(540deg); opacity:0.9; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .float-deco, .confetti{ animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- floating decorative cats -->
+  <div class="float-deco deco1"><img src="media/aindagato.gif" alt=""></div>
+  <div class="float-deco deco2"><img src="media/200w.webp" alt=""></div>
+  <div class="float-deco deco3" style="border-radius:18px; overflow:hidden;">
+    <video autoplay loop muted playsinline style="width:100%; border-radius:18px;">
+      <source src="media/uni-tail-wag-unicat.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="float-deco deco4" style="border-radius:18px; overflow:hidden;">
+    <video autoplay loop muted playsinline style="width:100%; border-radius:18px;">
+      <source src="media/peach-goma.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ASK SCENE -->
+  <section class="scene" id="ask-scene">
+    <div class="eyebrow">psst... come here for a sec</div>
+
+    <div class="hero-frame">
+      <video autoplay loop muted playsinline>
+        <source src="media/will-you-be-mine-will-you-be-my-girlfriend.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <h1 class="question">Will you be my <span class="accent">girlfriend</span>?</h1>
+    <p class="subtext">I've been meaning to ask this properly. So here it is — with all the cats I could find, because they say it better than I can.</p>
+
+    <div class="button-row">
+      <button class="btn btn-yes" id="yesBtn">Yes 🥹💗</button>
+      <button class="btn btn-no" id="noBtn">No</button>
+    </div>
+
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <!-- YES SCENE -->
+  <section class="scene" id="yes-scene">
+    <div>
+      <h1>she said yes 🎉</h1>
+      <p class="subtext">Every single cat in my camera roll is celebrating with us right now.</p>
+
+      <div class="gallery">
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/cat-kiss-camera-cute-cat.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/cute-cats-dancing.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/ok-ok-cat.mp4"></video></div>
+        <div class="tile"><img src="media/aindagato.gif" alt=""></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/cat-salut.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/cool-cat.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/puss-in-boots-eyes.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/puss-puss-in-boots.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/mochi-mochi-peach-cat.mp4"></video></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/ami-fat-cat-awww.mp4"></video></div>
+        <div class="tile"><img src="media/200w.webp" alt=""></div>
+        <div class="tile"><video autoplay loop muted playsinline><source src="media/killer.mp4"></video></div>
+      </div>
+
+      <div class="signoff">now come here, i owe you a real hug 🤍</div>
+    </div>
+  </section>
+
+<script>
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const askScene = document.getElementById('ask-scene');
+  const yesScene = document.getElementById('yes-scene');
+  const hint = document.getElementById('hint');
+
+  const teases = [
+    "nice try 🙈",
+    "wrong button, try again",
+    "the cats disagree with you",
+    "c'mon...",
+    "you can't even catch me",
+    "it's this way now →",
+    "still no? okay wow",
+    "just say yes already 🥺"
+  ];
+  let teaseIndex = 0;
+  let dodges = 0;
+
+  function moveNoButton(){
+    askScene.classList.add('locked');
+    const btnRect = noBtn.getBoundingClientRect();
+    const margin = 24;
+    const maxX = window.innerWidth - btnRect.width - margin;
+    const maxY = window.innerHeight - btnRect.height - margin;
+    const x = Math.max(margin, Math.random() * maxX);
+    const y = Math.max(margin, Math.random() * maxY);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    dodges++;
+    hint.textContent = teases[teaseIndex % teases.length];
+    teaseIndex++;
+    if(dodges > 3){
+      noBtn.style.transform = `scale(${Math.max(0.55, 1 - dodges*0.06)})`;
+    }
+  }
+
+  noBtn.addEventListener('mouseenter', moveNoButton);
+  noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNoButton(); });
+  noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNoButton(); }, {passive:false});
+
+  function launchConfetti(){
+    const colors = ['#E85D8A','#E8B84B','#FFD9E4','#C43B67','#FFFFFF'];
+    for(let i=0;i<70;i++){
+      const c = document.createElement('div');
+      c.className='confetti';
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = (2.5 + Math.random()*2) + 's';
+      c.style.opacity = 0.7 + Math.random()*0.3;
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(), 5000);
+    }
+  }
+
+  yesBtn.addEventListener('click', ()=>{
+    askScene.style.display = 'none';
+    yesScene.style.display = 'flex';
+    launchConfetti();
+    setInterval(launchConfetti, 3500);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // subtle paw print trail on the ask scene
+  document.addEventListener('mousemove', (e)=>{
+    if(Math.random() > 0.92){
+      const p = document.createElement('div');
+      p.className='paw';
+      p.textContent='🐾';
+      p.style.left = e.clientX + 'px';
+      p.style.top = e.clientY + 'px';
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), 1000);
+    }
+  });
+</script>
+
+</body>
+</html>
