@@ -424,6 +424,17 @@
   const yesScene = document.getElementById('yes-scene');
   const hint = document.getElementById('hint');
 
+  /* ---- notify you remotely when she answers (via ntfy.sh, no backend needed) ---- */
+  const NTFY_TOPIC = 'porposal1322'; // <-- change this to something unique only you know
+
+  function notifyAnswer(answer){
+    fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+      method: 'POST',
+      body: answer === 'yes' ? 'She said YES 🥹💗' : `She clicked No (attempt #${dodges + 1}) 🙈`,
+      headers: { 'Title': 'Proposal page update', 'Priority': answer === 'yes' ? 'urgent' : 'default', 'Tags': answer === 'yes' ? 'heart' : 'cat' }
+    }).catch(()=>{ /* fails silently if offline - doesn't block the page */ });
+  }
+
   const teases = [
     "nice try 🙈",
     "wrong button, try again",
@@ -458,8 +469,8 @@
   }
 
   noBtn.addEventListener('mouseenter', moveNoButton);
-  noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNoButton(); });
-  noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNoButton(); }, {passive:false});
+  noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNoButton(); if(dodges === 0) notifyAnswer('no'); });
+  noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNoButton(); if(dodges === 0) notifyAnswer('no'); }, {passive:false});
 
   function launchConfetti(){
     const colors = ['#E85D8A','#E8B84B','#FFD9E4','#C43B67','#FFFFFF'];
@@ -476,6 +487,7 @@
   }
 
   yesBtn.addEventListener('click', ()=>{
+    notifyAnswer('yes');
     askScene.style.display = 'none';
     yesScene.style.display = 'flex';
     launchConfetti();
