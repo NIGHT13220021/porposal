@@ -425,7 +425,7 @@
   const hint = document.getElementById('hint');
 
   /* ---- notify you remotely when she answers (via ntfy.sh, no backend needed) ---- */
-  const NTFY_TOPIC = 'porposal1322'; // <-- change this to something unique only you know
+  const NTFY_TOPIC = 'porposal1322'; // <-- your actual topic, keep this unique and private
 
   function notifyAnswer(answer){
     fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
