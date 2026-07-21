@@ -277,6 +277,73 @@
     to{ transform: translateY(110vh) rotate(540deg); opacity:0.9; }
   }
 
+  /* ---------- contact scene ---------- */
+  #contact-scene{
+    display:none;
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .contact-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    max-width:420px;
+    margin: 28px auto 0;
+    width:100%;
+  }
+
+  .contact-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:var(--white);
+    border:2px solid var(--blush);
+    border-radius:16px;
+    padding: 14px 18px;
+    text-decoration:none;
+    color:var(--plum);
+    box-shadow: 0 8px 20px rgba(196,59,103,0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .contact-card:hover{
+    transform: translateY(-2px);
+    border-color: var(--rose);
+    box-shadow: 0 12px 26px rgba(196,59,103,0.22);
+  }
+  .contact-card:active{ transform: scale(0.98); }
+
+  .contact-icon{
+    font-size: 1.6rem;
+    flex-shrink:0;
+    width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--blush);
+    border-radius:50%;
+  }
+
+  .contact-text{
+    display:flex;
+    flex-direction:column;
+    text-align:left;
+    min-width:0;
+  }
+
+  .contact-label{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--deep-rose);
+  }
+
+  .contact-value{
+    font-size:0.85rem;
+    color:#7a4a63;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
   @media (prefers-reduced-motion: reduce){
     .float-deco, .confetti, .step-panel.active{ animation:none !important; }
   }
@@ -375,6 +442,57 @@
       </div>
 
       <div class="signoff">pick you up soon 🤍</div>
+
+      <div class="button-row" style="margin-top:32px;">
+        <button class="btn btn-next" id="toContactBtn">how do I reach you? →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SCENE -->
+  <section class="scene" id="contact-scene" style="display:none;">
+    <div>
+      <div class="eyebrow">last thing, promise</div>
+      <h1 class="step-text">where should I actually reach you?</h1>
+      <p class="subtext">Pick whichever's easiest — or all of them, I'm not picky.</p>
+
+      <div class="contact-list">
+
+        <a class="contact-card" href="tel:+91XXXXXXXXXX">
+          <span class="contact-icon">📞</span>
+          <span class="contact-text">
+            <span class="contact-label">Call / Text</span>
+            <span class="contact-value">+91 XXXXX XXXXX</span>
+          </span>
+        </a>
+
+        <a class="contact-card" href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener">
+          <span class="contact-icon">💬</span>
+          <span class="contact-text">
+            <span class="contact-label">WhatsApp</span>
+            <span class="contact-value">Tap to chat</span>
+          </span>
+        </a>
+
+        <a class="contact-card" href="https://instagram.com/your_handle" target="_blank" rel="noopener">
+          <span class="contact-icon">📸</span>
+          <span class="contact-text">
+            <span class="contact-label">Instagram</span>
+            <span class="contact-value">@your_handle</span>
+          </span>
+        </a>
+
+        <a class="contact-card" href="mailto:you@example.com">
+          <span class="contact-icon">✉️</span>
+          <span class="contact-text">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">you@example.com</span>
+          </span>
+        </a>
+
+      </div>
+
+      <div class="signoff" style="margin-top:32px;">can't wait 🤍</div>
     </div>
   </section>
 
@@ -501,6 +619,14 @@
     yesScene.style.display = 'flex';
     launchConfetti();
     setInterval(launchConfetti, 3500);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  const toContactBtn = document.getElementById('toContactBtn');
+  const contactScene = document.getElementById('contact-scene');
+  toContactBtn.addEventListener('click', ()=>{
+    yesScene.style.display = 'none';
+    contactScene.style.display = 'flex';
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
