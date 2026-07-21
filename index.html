@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>a question, for you 🐾</title>
+<title>lunch? 🍜</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FFF6F0;
-    --blush:#FFD9E4;
-    --rose:#E85D8A;
-    --deep-rose:#C43B67;
-    --plum:#4A2140;
-    --gold:#E8B84B;
+    --cream:#FFF8F0;
+    --peach:#FFE1C4;
+    --orange:#F2954D;
+    --deep-orange:#D9722E;
+    --plum:#3F2A1D;
     --white:#FFFFFF;
-    --shadow: 0 20px 50px rgba(196,59,103,0.18);
+    --shadow: 0 20px 50px rgba(217,114,46,0.18);
     --vh: 1vh;
   }
 
@@ -24,50 +23,11 @@
   html,body{
     margin:0; padding:0;
     min-height:100%;
-    background: radial-gradient(circle at 20% 10%, var(--blush), var(--cream) 55%);
+    background: radial-gradient(circle at 20% 10%, var(--peach), var(--cream) 55%);
     font-family:'Quicksand', sans-serif;
     color:var(--plum);
     overflow-x:hidden;
     width:100%;
-  }
-
-  .float-deco{
-    position:fixed;
-    z-index:0;
-    pointer-events:none;
-    opacity:0.85;
-    filter: drop-shadow(0 10px 20px rgba(196,59,103,0.15));
-    animation: bob 6s ease-in-out infinite;
-    width: clamp(56px, 9vw, 110px);
-  }
-  .float-deco img, .float-deco video{ width:100%; display:block; border-radius:18px; }
-  .deco1{ top:5%; left:3%; transform:rotate(-8deg); animation-delay:0s; }
-  .deco2{ bottom:6%; left:3%; transform:rotate(6deg); animation-delay:1.2s; }
-  .deco3{ top:9%; right:3%; transform:rotate(7deg); animation-delay:0.6s; }
-  .deco4{ bottom:7%; right:3%; transform:rotate(-6deg); animation-delay:1.8s; }
-
-  @keyframes bob{
-    0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); }
-    50%{ transform:translateY(-14px) rotate(var(--r,0deg)); }
-  }
-
-  @media (max-width: 480px){
-    .float-deco{ opacity:0.35; width:56px; }
-  }
-  @media (max-height: 700px) and (max-width: 480px){
-    .float-deco{ display:none; }
-  }
-
-  .paw{
-    position:fixed;
-    font-size:20px;
-    pointer-events:none;
-    opacity:0.55;
-    z-index:1;
-    animation: fadeOut 1s forwards;
-  }
-  @keyframes fadeOut{
-    to{ opacity:0; transform:translateY(10px) scale(0.6); }
   }
 
   .scene{
@@ -76,19 +36,18 @@
     min-height: calc(var(--vh, 1vh) * 100);
     width:100%;
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
+    text-align:center;
     z-index:2;
     padding: clamp(24px, 6vw, 48px) clamp(16px, 5vw, 20px);
   }
 
-  #step-scene, #ask-scene{ flex-direction:column; text-align:center; }
-
   .eyebrow{
     font-family:'Caveat', cursive;
     font-size: clamp(1.2rem, 4vw, 1.6rem);
-    color:var(--deep-rose);
-    letter-spacing:0.5px;
+    color:var(--deep-orange);
     margin-bottom:6px;
   }
 
@@ -100,50 +59,38 @@
   }
   .dot{
     width:8px; height:8px; border-radius:50%;
-    background:var(--blush);
+    background:var(--peach);
     transition: background 0.3s ease, transform 0.3s ease;
   }
-  .dot.active{ background:var(--deep-rose); transform:scale(1.3); }
+  .dot.active{ background:var(--deep-orange); transform:scale(1.3); }
 
-  .hero-frame{
-    position:relative;
-    width: clamp(150px, 42vw, 210px);
-    height: clamp(150px, 42vw, 210px);
-    border-radius:50%;
-    overflow:hidden;
-    border: clamp(4px, 1.2vw, 6px) solid var(--white);
-    box-shadow: var(--shadow);
-    margin:0 auto clamp(18px, 4vw, 28px) auto;
-    background:var(--blush);
+  .hero-emoji{
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    margin-bottom: clamp(14px, 3vw, 22px);
+    animation: bob 3s ease-in-out infinite;
   }
-  .hero-frame video, .hero-frame img{
-    width:100%; height:100%; object-fit:cover;
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
   }
 
-  h1.question, h1.step-text{
+  h1.step-text, h1.question{
     font-family:'Playfair Display', serif;
     font-weight:700;
     font-style:italic;
-    font-size: clamp(1.7rem, 6vw, 3.4rem);
+    font-size: clamp(1.7rem, 6vw, 3rem);
     line-height:1.2;
     margin: 0 0 10px 0;
-    color:var(--plum);
-    max-width:720px;
-    padding: 0 4px;
+    max-width:680px;
   }
-
-  h1.question .accent{
-    color:var(--deep-rose);
-    font-style:normal;
-  }
+  h1.question .accent{ color:var(--deep-orange); font-style:normal; }
 
   .subtext{
     font-size: clamp(0.95rem, 3.2vw, 1.08rem);
-    color:#7a4a63;
-    max-width:480px;
-    margin: 0 auto clamp(24px, 5vw, 38px) auto;
+    color:#7a5a3f;
+    max-width:460px;
+    margin: 0 auto clamp(20px, 5vw, 32px) auto;
     line-height:1.6;
-    padding: 0 8px;
   }
 
   .button-row{
@@ -152,7 +99,7 @@
     justify-content:center;
     align-items:center;
     position:relative;
-    min-height:80px;
+    min-height:70px;
     flex-wrap: wrap;
     width:100%;
   }
@@ -161,45 +108,39 @@
     font-family:'Quicksand', sans-serif;
     font-weight:700;
     font-size: clamp(0.95rem, 3.2vw, 1.05rem);
-    padding: clamp(13px, 3.5vw, 16px) clamp(24px, 6vw, 34px);
+    padding: clamp(13px, 3.5vw, 16px) clamp(24px, 6vw, 32px);
     border-radius:999px;
     border:none;
     cursor:pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     min-height:48px;
     touch-action: manipulation;
   }
-
   .btn-yes, .btn-next{
-    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    background: linear-gradient(135deg, var(--orange), var(--deep-orange));
     color:var(--white);
-    box-shadow: 0 12px 26px rgba(196,59,103,0.35);
+    box-shadow: 0 12px 26px rgba(217,114,46,0.35);
   }
-  .btn-yes:hover, .btn-next:hover{ transform:translateY(-3px) scale(1.04); box-shadow: 0 16px 32px rgba(196,59,103,0.45); }
+  .btn-yes:hover, .btn-next:hover{ transform:translateY(-3px) scale(1.04); }
   .btn-yes:active, .btn-next:active{ transform:scale(0.97); }
 
   .btn-no{
     background: var(--white);
-    color:var(--deep-rose);
-    border:2px solid var(--blush);
+    color:var(--deep-orange);
+    border:2px solid var(--peach);
     position:relative;
     transition: transform 0.18s ease, left 0.18s ease, top 0.18s ease;
   }
-
-  #ask-scene.locked .btn-no{
-    position:fixed;
-  }
+  #ask-scene.locked .btn-no{ position:fixed; }
 
   .hint{
-    margin-top:26px;
+    margin-top:22px;
     font-family:'Caveat', cursive;
     font-size: clamp(1.1rem, 3.5vw, 1.3rem);
-    color:#a15c78;
+    color:#a1703a;
     min-height:1.6em;
-    padding: 0 12px;
   }
 
-  #step-scene{ display:flex; }
   .step-panel{ display:none; width:100%; max-width:600px; }
   .step-panel.active{ display:block; animation: stepIn 0.45s ease; }
   @keyframes stepIn{
@@ -207,293 +148,151 @@
     to{ opacity:1; transform:translateY(0); }
   }
 
-  #yes-scene{
-    display:none;
-    flex-direction:column;
-    text-align:center;
-  }
+  #ask-scene, #choice-scene, #confirm-scene{ display:none; }
 
-  #yes-scene h1{
-    font-family:'Playfair Display', serif;
-    font-style:italic;
-    font-weight:700;
-    font-size: clamp(1.9rem, 6.5vw, 3.6rem);
-    color:var(--deep-rose);
-    margin-bottom:8px;
-  }
-
-  #yes-scene .subtext{ margin-bottom: clamp(24px, 5vw, 36px); }
-
-  .gallery{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: clamp(10px, 2.5vw, 18px);
-    max-width:960px;
+  /* ---------- choice cards ---------- */
+  .choice-group{
     width:100%;
-    margin: 0 auto;
-    padding: 0 4px;
-  }
-
-  @media (max-width: 380px){
-    .gallery{ grid-template-columns: repeat(2, 1fr); }
-  }
-
-  .tile{
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow: 0 10px 22px rgba(196,59,103,0.2);
-    border: 3px solid var(--white);
-    background:var(--blush);
-    aspect-ratio: 1 / 1;
-    transform: rotate(var(--tilt));
-    transition: transform 0.3s ease;
-  }
-  .tile:hover{ transform: rotate(0deg) scale(1.05); }
-  .tile video, .tile img{
-    width:100%; height:100%; object-fit:cover; display:block;
-  }
-
-  .tile:nth-child(odd){ --tilt: -3deg; }
-  .tile:nth-child(even){ --tilt: 3deg; }
-
-  .signoff{
-    margin-top:clamp(28px, 5vw, 40px);
-    font-family:'Caveat', cursive;
-    font-size: clamp(1.4rem, 4.5vw, 1.8rem);
-    color:var(--deep-rose);
-    padding: 0 12px;
-  }
-
-  .confetti{
-    position:fixed;
-    top:-10px;
-    width:10px; height:14px;
-    border-radius:3px;
-    z-index:5;
-    pointer-events:none;
-    animation: fall linear forwards;
-  }
-  @keyframes fall{
-    to{ transform: translateY(110vh) rotate(540deg); opacity:0.9; }
-  }
-
-  /* ---------- contact scene ---------- */
-  #contact-scene{
-    display:none;
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .contact-list{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    max-width:420px;
-    margin: 28px auto 0;
-    width:100%;
-  }
-
-  .contact-card{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    background:var(--white);
-    border:2px solid var(--blush);
-    border-radius:16px;
-    padding: 14px 18px;
-    text-decoration:none;
-    color:var(--plum);
-    box-shadow: 0 8px 20px rgba(196,59,103,0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-  .contact-card:hover{
-    transform: translateY(-2px);
-    border-color: var(--rose);
-    box-shadow: 0 12px 26px rgba(196,59,103,0.22);
-  }
-  .contact-card:active{ transform: scale(0.98); }
-
-  .contact-icon{
-    font-size: 1.6rem;
-    flex-shrink:0;
-    width:44px; height:44px;
-    display:flex; align-items:center; justify-content:center;
-    background:var(--blush);
-    border-radius:50%;
-  }
-
-  .contact-text{
-    display:flex;
-    flex-direction:column;
+    max-width:480px;
+    margin: 0 auto clamp(20px, 4vw, 28px);
     text-align:left;
-    min-width:0;
   }
-
-  .contact-label{
+  .choice-group-label{
     font-family:'Quicksand', sans-serif;
     font-weight:700;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--deep-orange);
+    margin-bottom:10px;
+  }
+  .choice-options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .choice-pill{
+    font-family:'Quicksand', sans-serif;
+    font-weight:600;
     font-size:0.95rem;
-    color:var(--deep-rose);
+    padding: 10px 18px;
+    border-radius:999px;
+    border:2px solid var(--peach);
+    background:var(--white);
+    color:var(--plum);
+    cursor:pointer;
+    transition: all 0.2s ease;
+  }
+  .choice-pill:hover{ border-color:var(--orange); }
+  .choice-pill.selected{
+    background: linear-gradient(135deg, var(--orange), var(--deep-orange));
+    border-color: var(--deep-orange);
+    color:var(--white);
   }
 
-  .contact-value{
-    font-size:0.85rem;
-    color:#7a4a63;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+  .confirm-box{
+    background:var(--white);
+    border-radius:18px;
+    padding: 20px 24px;
+    max-width:420px;
+    margin: 0 auto clamp(20px, 4vw, 28px);
+    box-shadow: 0 10px 24px rgba(217,114,46,0.15);
+    text-align:left;
+  }
+  .confirm-row{
+    display:flex;
+    justify-content:space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--peach);
+    font-size:0.95rem;
+  }
+  .confirm-row:last-child{ border-bottom:none; }
+  .confirm-label{ color:#a1703a; font-weight:600; }
+  .confirm-value{ font-weight:700; color:var(--plum); }
+
+  .signoff{
+    margin-top:clamp(20px, 4vw, 30px);
+    font-family:'Caveat', cursive;
+    font-size: clamp(1.3rem, 4vw, 1.6rem);
+    color:var(--deep-orange);
   }
 
   @media (prefers-reduced-motion: reduce){
-    .float-deco, .confetti, .step-panel.active{ animation:none !important; }
+    .hero-emoji, .step-panel.active{ animation:none !important; }
   }
 </style>
 </head>
 <body>
 
-  <div class="float-deco deco1"><img src="media/aindagato.gif" alt=""></div>
-  <div class="float-deco deco2"><img src="media/200w.webp" alt=""></div>
-  <div class="float-deco deco3">
-    <video autoplay loop muted playsinline><source src="media/uni-tail-wag-unicat.mp4" type="video/mp4"></video>
-  </div>
-  <div class="float-deco deco4">
-    <video autoplay loop muted playsinline><source src="media/peach-goma.mp4" type="video/mp4"></video>
-  </div>
-
+  <!-- STEP-BY-STEP INTRO -->
   <section class="scene" id="step-scene">
-
     <div class="dots" id="dots"></div>
 
     <div class="step-panel active" data-step="0">
-      <div class="eyebrow">psst... come here for a sec</div>
-      <div class="hero-frame">
-        <video autoplay loop muted playsinline><source src="media/cat-salut.mp4" type="video/mp4"></video>
-      </div>
-      <h1 class="step-text">hi.</h1>
-      <p class="subtext">I have something to ask you. It'll take like four clicks. The cats insisted on helping.</p>
-      <div class="button-row"><button class="btn btn-next next-btn">okay...</button></div>
+      <div class="eyebrow">psst...</div>
+      <div class="hero-emoji">👋</div>
+      <h1 class="step-text">hey, quick thing.</h1>
+      <p class="subtext">Got two minutes? This won't take long.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">go on</button></div>
     </div>
 
     <div class="step-panel" data-step="1">
-      <div class="hero-frame">
-        <video autoplay loop muted playsinline><source src="media/cool-cat.mp4" type="video/mp4"></video>
-      </div>
-      <h1 class="step-text">so, quick question first —</h1>
-      <p class="subtext">are you free sometime soon? Just checking before I get ahead of myself.</p>
+      <div class="hero-emoji">🕐</div>
+      <h1 class="step-text">I noticed it's almost noon.</h1>
+      <p class="subtext">Which, coincidentally, is my favorite time of day to have a good excuse to see you.</p>
       <div class="button-row"><button class="btn btn-next next-btn">go on</button></div>
     </div>
 
     <div class="step-panel" data-step="2">
-      <div class="hero-frame">
-        <video autoplay loop muted playsinline><source src="media/ami-fat-cat-awww.mp4" type="video/mp4"></video>
-      </div>
-      <h1 class="step-text">good. because I've been thinking about this.</h1>
-      <p class="subtext">Not just texting back and forth — an actual, real, get-out-of-the-house date.</p>
-      <div class="button-row"><button class="btn btn-next next-btn">get to the point</button></div>
+      <div class="hero-emoji">🍜</div>
+      <h1 class="step-text">so here's the question.</h1>
+      <p class="subtext">Last click, promise.</p>
+      <div class="button-row"><button class="btn btn-next next-btn">ask me</button></div>
     </div>
-
-    <div class="step-panel" data-step="3">
-      <div class="hero-frame">
-        <video autoplay loop muted playsinline><source src="media/puss-in-boots-eyes.mp4" type="video/mp4"></video>
-      </div>
-      <h1 class="step-text">okay. here it comes.</h1>
-      <p class="subtext">Deep breath. Last click, I promise.</p>
-      <div class="button-row"><button class="btn btn-next next-btn">ready</button></div>
-    </div>
-
   </section>
 
-  <section class="scene" id="ask-scene" style="display:none;">
-    <div class="hero-frame">
-      <video autoplay loop muted playsinline>
-        <source src="media/cool-cat.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <h1 class="question">Wanna go on a <span class="accent">date</span>?</h1>
-    <p class="subtext">I've been meaning to ask this properly. So here it is — with all the cats I could find, because they say it better than I can.</p>
-
+  <!-- ASK SCENE -->
+  <section class="scene" id="ask-scene">
+    <div class="hero-emoji">🍽️</div>
+    <h1 class="question">Wanna grab <span class="accent">lunch</span>?</h1>
+    <p class="subtext">My treat. Just say yes and pick your details on the next screen.</p>
     <div class="button-row">
-      <button class="btn btn-yes" id="yesBtn">Yes 🥹💗</button>
+      <button class="btn btn-yes" id="yesBtn">Yes, let's go 🍜</button>
       <button class="btn btn-no" id="noBtn">No</button>
     </div>
-
     <div class="hint" id="hint"></div>
   </section>
 
-  <section class="scene" id="yes-scene">
-    <div>
-      <h1>she said yes 🎉</h1>
-      <p class="subtext">Every single cat in my camera roll is celebrating with us right now. I'll text you the details.</p>
+  <!-- CHOICE SCENE -->
+  <section class="scene" id="choice-scene">
+    <div class="hero-emoji">📋</div>
+    <h1 class="step-text">perfect. your call —</h1>
+    <p class="subtext">Pick whatever works for you, I'll build my schedule around it.</p>
 
-      <div class="gallery">
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/cat-kiss-camera-cute-cat.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/cute-cats-dancing.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/ok-ok-cat.mp4"></video></div>
-        <div class="tile"><img src="media/aindagato.gif" alt=""></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/cat-salut.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/cool-cat.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/puss-in-boots-eyes.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/puss-puss-in-boots.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/mochi-mochi-peach-cat.mp4"></video></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/ami-fat-cat-awww.mp4"></video></div>
-        <div class="tile"><img src="media/200w.webp" alt=""></div>
-        <div class="tile"><video autoplay loop muted playsinline><source src="media/killer.mp4"></video></div>
+    <div class="choice-group">
+      <div class="choice-group-label">What time?</div>
+      <div class="choice-options" data-group="time">
+        <div class="choice-pill" data-value="12:30 PM">12:30 PM</div>
+        <div class="choice-pill" data-value="1:00 PM">1:00 PM</div>
+        <div class="choice-pill" data-value="1:30 PM">1:30 PM</div>
+        <div class="choice-pill" data-value="2:00 PM">2:00 PM</div>
       </div>
+    </div>
 
-      <div class="signoff">pick you up soon 🤍</div>
-
-      <div class="button-row" style="margin-top:32px;">
-        <button class="btn btn-next" id="toContactBtn">how do I reach you? →</button>
-      </div>
+    <div class="button-row">
+      <button class="btn btn-yes" id="confirmBtn">confirm it</button>
     </div>
   </section>
 
-  <!-- CONTACT SCENE -->
-  <section class="scene" id="contact-scene" style="display:none;">
-    <div>
-      <div class="eyebrow">last thing, promise</div>
-      <h1 class="step-text">where should I actually reach you?</h1>
-      <p class="subtext">Pick whichever's easiest — or all of them, I'm not picky.</p>
+  <!-- CONFIRM SCENE -->
+  <section class="scene" id="confirm-scene">
+    <div class="hero-emoji">🎉</div>
+    <h1 class="step-text">it's a date. lunch date.</h1>
+    <p class="subtext">Here's what you picked:</p>
 
-      <div class="contact-list">
+    <div class="confirm-box" id="confirmBox"></div>
 
-        <a class="contact-card" href="tel:+91XXXXXXXXXX">
-          <span class="contact-icon">📞</span>
-          <span class="contact-text">
-            <span class="contact-label">Call / Text</span>
-            <span class="contact-value">+91 XXXXX XXXXX</span>
-          </span>
-        </a>
-
-        <a class="contact-card" href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener">
-          <span class="contact-icon">💬</span>
-          <span class="contact-text">
-            <span class="contact-label">WhatsApp</span>
-            <span class="contact-value">Tap to chat</span>
-          </span>
-        </a>
-
-        <a class="contact-card" href="https://instagram.com/your_handle" target="_blank" rel="noopener">
-          <span class="contact-icon">📸</span>
-          <span class="contact-text">
-            <span class="contact-label">Instagram</span>
-            <span class="contact-value">@your_handle</span>
-          </span>
-        </a>
-
-        <a class="contact-card" href="mailto:you@example.com">
-          <span class="contact-icon">✉️</span>
-          <span class="contact-text">
-            <span class="contact-label">Email</span>
-            <span class="contact-value">you@example.com</span>
-          </span>
-        </a>
-
-      </div>
-
-      <div class="signoff" style="margin-top:32px;">can't wait 🤍</div>
-    </div>
+    <div class="signoff">see you then 🤍</div>
   </section>
 
 <script>
@@ -504,6 +303,18 @@
   window.addEventListener('resize', setVH);
   window.addEventListener('orientationchange', setVH);
 
+  /* ---- notify you remotely (via ntfy.sh, no backend needed) ---- */
+  const NTFY_TOPIC = 'porposal1322'; // <-- change this to your own unique topic
+
+  function notify(message){
+    fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+      method: 'POST',
+      body: message,
+      headers: { 'Title': 'Lunch invite update', 'Priority': 'default', 'Tags': 'fork_and_knife' }
+    }).catch(()=>{});
+  }
+
+  /* ---- step intro flow ---- */
   const panels = Array.from(document.querySelectorAll('.step-panel'));
   const dotsWrap = document.getElementById('dots');
   const stepScene = document.getElementById('step-scene');
@@ -532,36 +343,19 @@
       } else {
         stepScene.style.display = 'none';
         askScene.style.display = 'flex';
-        window.scrollTo({top:0, behavior:'smooth'});
       }
     });
   });
 
+  /* ---- ask scene: yes / dodge no ---- */
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
-  const yesScene = document.getElementById('yes-scene');
+  const choiceScene = document.getElementById('choice-scene');
   const hint = document.getElementById('hint');
 
-  /* ---- notify you remotely when she answers (via ntfy.sh, no backend needed) ---- */
-  const NTFY_TOPIC = 'porposal1322'; // <-- your actual topic, keep this unique and private
-
-  function notifyAnswer(answer){
-    fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-      method: 'POST',
-      body: answer === 'yes' ? 'She said YES to the date 🥹💗' : `She clicked No (attempt #${dodges + 1}) 🙈`,
-      headers: { 'Title': 'Date invite page update', 'Priority': answer === 'yes' ? 'urgent' : 'default', 'Tags': answer === 'yes' ? 'heart' : 'cat' }
-    }).catch(()=>{ /* fails silently if offline - doesn't block the page */ });
-  }
-
   const teases = [
-    "nice try 🙈",
-    "wrong button, try again",
-    "the cats disagree with you",
-    "c'mon...",
-    "you can't even catch me",
-    "it's this way now →",
-    "still no? okay wow",
-    "just say yes already 🥺"
+    "nice try 🙈", "wrong button", "c'mon, you're hungry too", "it's this way now →",
+    "still no? okay wow", "just say yes 🥺", "food is on the line here"
   ];
   let teaseIndex = 0;
   let dodges = 0;
@@ -589,60 +383,55 @@
 
   noBtn.addEventListener('mouseenter', moveNoButton);
   noBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    moveNoButton();
-    if(!noNotified){ noNotified = true; notifyAnswer('no'); }
+    e.preventDefault(); moveNoButton();
+    if(!noNotified){ noNotified = true; notify(`She clicked No on lunch 🙈 (attempt #${dodges})`); }
   });
   noBtn.addEventListener('touchstart', (e)=>{
-    e.preventDefault();
-    moveNoButton();
-    if(!noNotified){ noNotified = true; notifyAnswer('no'); }
+    e.preventDefault(); moveNoButton();
+    if(!noNotified){ noNotified = true; notify(`She clicked No on lunch 🙈 (attempt #${dodges})`); }
   }, {passive:false});
 
-  function launchConfetti(){
-    const colors = ['#E85D8A','#E8B84B','#FFD9E4','#C43B67','#FFFFFF'];
-    for(let i=0;i<70;i++){
-      const c = document.createElement('div');
-      c.className='confetti';
-      c.style.left = Math.random()*100 + 'vw';
-      c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration = (2.5 + Math.random()*2) + 's';
-      c.style.opacity = 0.7 + Math.random()*0.3;
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(), 5000);
-    }
-  }
-
   yesBtn.addEventListener('click', ()=>{
-    notifyAnswer('yes');
+    notify('She said YES to lunch 🍜💗 — picking details now...');
     askScene.style.display = 'none';
-    yesScene.style.display = 'flex';
-    launchConfetti();
-    setInterval(launchConfetti, 3500);
+    choiceScene.style.display = 'flex';
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
-  const toContactBtn = document.getElementById('toContactBtn');
-  const contactScene = document.getElementById('contact-scene');
-  toContactBtn.addEventListener('click', ()=>{
-    yesScene.style.display = 'none';
-    contactScene.style.display = 'flex';
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
+  /* ---- choice scene: pill selection ---- */
+  const selections = { time: null };
 
-  if (!('ontouchstart' in window)) {
-    document.addEventListener('mousemove', (e)=>{
-      if(Math.random() > 0.92){
-        const p = document.createElement('div');
-        p.className='paw';
-        p.textContent='🐾';
-        p.style.left = e.clientX + 'px';
-        p.style.top = e.clientY + 'px';
-        document.body.appendChild(p);
-        setTimeout(()=>p.remove(), 1000);
-      }
+  document.querySelectorAll('.choice-options').forEach(group => {
+    const groupName = group.dataset.group;
+    group.querySelectorAll('.choice-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        group.querySelectorAll('.choice-pill').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+        selections[groupName] = pill.dataset.value;
+      });
     });
-  }
+  });
+
+  const confirmBtn = document.getElementById('confirmBtn');
+  const confirmScene = document.getElementById('confirm-scene');
+  const confirmBox = document.getElementById('confirmBox');
+
+  confirmBtn.addEventListener('click', () => {
+    if (!selections.time) {
+      alert('Pick a time first! 🙂');
+      return;
+    }
+
+    confirmBox.innerHTML = `
+      <div class="confirm-row"><span class="confirm-label">Time</span><span class="confirm-value">${selections.time}</span></div>
+    `;
+
+    notify(`Lunch confirmed 🎉 — Time: ${selections.time}`);
+
+    choiceScene.style.display = 'none';
+    confirmScene.style.display = 'flex';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
 </script>
 
 </body>
