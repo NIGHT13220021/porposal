@@ -128,10 +128,17 @@
     background: var(--white);
     color:var(--deep-orange);
     border:2px solid var(--peach);
-    position:relative;
-    transition: transform 0.18s ease, left 0.18s ease, top 0.18s ease;
   }
-  #ask-scene.locked .btn-no{ position:fixed; }
+  .btn-no:hover{ border-color: var(--orange); transform: translateY(-2px); }
+
+  .btn-skip{
+    background: transparent;
+    color:#a1703a;
+    border:none;
+    text-decoration: underline;
+    font-weight:600;
+    padding: 10px 14px;
+  }
 
   .hint{
     margin-top:22px;
@@ -148,7 +155,7 @@
     to{ opacity:1; transform:translateY(0); }
   }
 
-  #ask-scene, #choice-scene, #confirm-scene{ display:none; }
+  #ask-scene, #choice-scene, #contact-scene, #confirm-scene{ display:none; }
 
   /* ---------- choice cards ---------- */
   .choice-group{
@@ -190,6 +197,48 @@
     color:var(--white);
   }
 
+  /* ---------- contact form ---------- */
+  .contact-note{
+    background: rgba(242,149,77,0.12);
+    border: 1px solid var(--peach);
+    border-radius: 14px;
+    padding: 12px 16px;
+    max-width: 420px;
+    margin: 0 auto 20px auto;
+    font-size: 0.85rem;
+    color:#8a5a2f;
+    text-align:left;
+  }
+
+  .field-group{
+    width:100%;
+    max-width:420px;
+    margin: 0 auto 16px auto;
+    text-align:left;
+  }
+  .field-label{
+    display:block;
+    font-weight:700;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--deep-orange);
+    margin-bottom:8px;
+  }
+  .field-input{
+    width:100%;
+    font-family:'Quicksand', sans-serif;
+    font-size:1rem;
+    padding: 13px 16px;
+    border-radius:12px;
+    border:2px solid var(--peach);
+    background:var(--white);
+    color:var(--plum);
+    outline:none;
+    transition: border-color 0.2s ease;
+  }
+  .field-input:focus{ border-color: var(--orange); }
+
   .confirm-box{
     background:var(--white);
     border-radius:18px;
@@ -202,13 +251,14 @@
   .confirm-row{
     display:flex;
     justify-content:space-between;
+    gap:12px;
     padding: 8px 0;
     border-bottom: 1px solid var(--peach);
     font-size:0.95rem;
   }
   .confirm-row:last-child{ border-bottom:none; }
-  .confirm-label{ color:#a1703a; font-weight:600; }
-  .confirm-value{ font-weight:700; color:var(--plum); }
+  .confirm-label{ color:#a1703a; font-weight:600; white-space:nowrap; }
+  .confirm-value{ font-weight:700; color:var(--plum); text-align:right; word-break:break-word; }
 
   .signoff{
     margin-top:clamp(20px, 4vw, 30px);
@@ -280,7 +330,28 @@
     </div>
 
     <div class="button-row">
-      <button class="btn btn-yes" id="confirmBtn">confirm it</button>
+      <button class="btn btn-yes" id="toContactBtn">next</button>
+    </div>
+  </section>
+
+  <!-- CONTACT SCENE (optional, transparent) -->
+  <section class="scene" id="contact-scene">
+    <div class="hero-emoji">📱</div>
+    <h1 class="step-text">want to share a contact?</h1>
+    <p class="subtext">Totally optional — leave a number or email if you'd like me to reach you directly, or just skip this.</p>
+
+    <div class="contact-note">
+      If you fill this in and hit "share it," it'll be sent to me directly so I can reach out. Nothing is collected unless you type it and submit it yourself.
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="contactInput">Email or phone (optional)</label>
+      <input class="field-input" type="text" id="contactInput" placeholder="e.g. you@email.com or 555-123-4567">
+    </div>
+
+    <div class="button-row">
+      <button class="btn btn-yes" id="shareContactBtn">share it</button>
+      <button class="btn btn-skip" id="skipContactBtn">skip this</button>
     </div>
   </section>
 
@@ -347,49 +418,21 @@
     });
   });
 
-  /* ---- ask scene: yes / dodge no ---- */
+  /* ---- ask scene: yes / no (both work normally) ---- */
   const noBtn = document.getElementById('noBtn');
   const yesBtn = document.getElementById('yesBtn');
   const choiceScene = document.getElementById('choice-scene');
   const hint = document.getElementById('hint');
 
-  const teases = [
-    "nice try 🙈", "wrong button", "c'mon, you're hungry too", "it's this way now →",
-    "still no? okay wow", "just say yes 🥺", "food is on the line here"
-  ];
-  let teaseIndex = 0;
-  let dodges = 0;
-  let noNotified = false;
-
-  function moveNoButton(){
-    askScene.classList.add('locked');
-    const btnRect = noBtn.getBoundingClientRect();
-    const margin = 16;
-    const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    const maxX = vw - btnRect.width - margin;
-    const maxY = vh - btnRect.height - margin;
-    const x = Math.max(margin, Math.random() * maxX);
-    const y = Math.max(margin, Math.random() * maxY);
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
-    dodges++;
-    hint.textContent = teases[teaseIndex % teases.length];
-    teaseIndex++;
-    if(dodges > 3){
-      noBtn.style.transform = `scale(${Math.max(0.55, 1 - dodges*0.06)})`;
-    }
-  }
-
-  noBtn.addEventListener('mouseenter', moveNoButton);
-  noBtn.addEventListener('click', (e)=>{
-    e.preventDefault(); moveNoButton();
-    if(!noNotified){ noNotified = true; notify(`She clicked No on lunch 🙈 (attempt #${dodges})`); }
+  noBtn.addEventListener('click', () => {
+    notify('She said no to lunch this time 🙂');
+    askScene.querySelector('.question').textContent = '';
+    askScene.innerHTML = `
+      <div class="hero-emoji">🤍</div>
+      <h1 class="step-text">no worries at all.</h1>
+      <p class="subtext">Ask me again whenever you're free — the offer doesn't expire.</p>
+    `;
   });
-  noBtn.addEventListener('touchstart', (e)=>{
-    e.preventDefault(); moveNoButton();
-    if(!noNotified){ noNotified = true; notify(`She clicked No on lunch 🙈 (attempt #${dodges})`); }
-  }, {passive:false});
 
   yesBtn.addEventListener('click', ()=>{
     notify('She said YES to lunch 🍜💗 — picking details now...');
@@ -399,7 +442,7 @@
   });
 
   /* ---- choice scene: pill selection ---- */
-  const selections = { time: null };
+  const selections = { time: null, contact: null };
 
   document.querySelectorAll('.choice-options').forEach(group => {
     const groupName = group.dataset.group;
@@ -412,25 +455,51 @@
     });
   });
 
-  const confirmBtn = document.getElementById('confirmBtn');
+  const toContactBtn = document.getElementById('toContactBtn');
+  const contactScene = document.getElementById('contact-scene');
+  const contactInput = document.getElementById('contactInput');
+  const shareContactBtn = document.getElementById('shareContactBtn');
+  const skipContactBtn = document.getElementById('skipContactBtn');
   const confirmScene = document.getElementById('confirm-scene');
   const confirmBox = document.getElementById('confirmBox');
 
-  confirmBtn.addEventListener('click', () => {
+  toContactBtn.addEventListener('click', () => {
     if (!selections.time) {
       alert('Pick a time first! 🙂');
       return;
     }
-
-    confirmBox.innerHTML = `
-      <div class="confirm-row"><span class="confirm-label">Time</span><span class="confirm-value">${selections.time}</span></div>
-    `;
-
-    notify(`Lunch confirmed 🎉 — Time: ${selections.time}`);
-
     choiceScene.style.display = 'none';
+    contactScene.style.display = 'flex';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  function goToConfirm(){
+    const rows = [
+      `<div class="confirm-row"><span class="confirm-label">Time</span><span class="confirm-value">${selections.time}</span></div>`
+    ];
+    if (selections.contact){
+      rows.push(`<div class="confirm-row"><span class="confirm-label">Contact</span><span class="confirm-value">${selections.contact}</span></div>`);
+    }
+    confirmBox.innerHTML = rows.join('');
+
+    let msg = `Lunch confirmed 🎉 — Time: ${selections.time}`;
+    if (selections.contact){ msg += ` — Contact: ${selections.contact}`; }
+    notify(msg);
+
+    contactScene.style.display = 'none';
     confirmScene.style.display = 'flex';
     window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  shareContactBtn.addEventListener('click', () => {
+    const val = contactInput.value.trim();
+    selections.contact = val || null;
+    goToConfirm();
+  });
+
+  skipContactBtn.addEventListener('click', () => {
+    selections.contact = null;
+    goToConfirm();
   });
 </script>
 
