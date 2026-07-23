@@ -44,6 +44,7 @@
   }
 
   #thanks-scene{ display:none; }
+  #ask-scene{ display:none; }
 
   .hero-emoji{
     font-size: clamp(3.5rem, 12vw, 5.5rem);
@@ -136,6 +137,16 @@
 </head>
 <body>
 
+  <!-- SCREEN 0: INTRO -->
+  <section class="scene" id="intro-scene">
+    <div class="hero-emoji">👋</div>
+    <h1 class="question">hi, I'm <span class="accent">Kundan</span>.</h1>
+    <p class="subtext">I have something to ask you. Just one click away.</p>
+    <div class="button-row">
+      <button class="btn btn-yes" id="introNextBtn">next</button>
+    </div>
+  </section>
+
   <!-- SCREEN 1: ASK -->
   <section class="scene" id="ask-scene">
     <div class="hero-emoji">🍽️</div>
@@ -177,9 +188,17 @@
 
   const askScene = document.getElementById('ask-scene');
   const thanksScene = document.getElementById('thanks-scene');
+  const introScene = document.getElementById('intro-scene');
+  const introNextBtn = document.getElementById('introNextBtn');
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
   const hint = document.getElementById('hint');
+
+  introNextBtn.addEventListener('click', () => {
+    introScene.style.display = 'none';
+    askScene.style.display = 'flex';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
 
   const teases = [
     "nice try 🙈", "wrong button", "c'mon...", "it's this way now →",
